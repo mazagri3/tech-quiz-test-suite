@@ -14,7 +14,8 @@ export const getQuestions = async (): Promise<Question[]> => {
     });
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error('Failed to load questions');
     }
 
     const data: Question[] = await response.json();
@@ -22,6 +23,9 @@ export const getQuestions = async (): Promise<Question[]> => {
     return data;
   } catch (error) {
     console.error('Failed to fetch questions:', error);
-    throw error;
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error('Failed to load questions');
   }
 };
