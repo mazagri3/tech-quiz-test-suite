@@ -8,18 +8,23 @@ const Quiz = () => {
   const [score, setScore] = useState(0);
   const [quizCompleted, setQuizCompleted] = useState(false);
   const [quizStarted, setQuizStarted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const getRandomQuestions = async () => {
     try {
+      setError(null);
+      console.log('Fetching questions...');
       const questions = await getQuestions();
+      console.log('Received questions:', questions);
 
-      if (!questions) {
-        throw new Error('something went wrong!');
+      if (!questions || questions.length === 0) {
+        throw new Error('No questions received from the server');
       }
 
       setQuestions(questions);
     } catch (err) {
-      console.error(err);
+      console.error('Error fetching questions:', err);
+      setError(err instanceof Error ? err.message : 'Failed to load questions');
     }
   };
 
@@ -38,10 +43,12 @@ const Quiz = () => {
 
   const handleStartQuiz = async () => {
     await getRandomQuestions();
-    setQuizStarted(true);
-    setQuizCompleted(false);
-    setScore(0);
-    setCurrentQuestionIndex(0);
+    if (!error) {
+      setQuizStarted(true);
+      setQuizCompleted(false);
+      setScore(0);
+      setCurrentQuestionIndex(0);
+    }
   };
 
   if (!quizStarted) {
@@ -50,6 +57,11 @@ const Quiz = () => {
         <button className="btn btn-primary d-inline-block mx-auto" onClick={handleStartQuiz}>
           Start Quiz
         </button>
+        {error && (
+          <div className="alert alert-danger mt-3">
+            {error}
+          </div>
+        )}
       </div>
     );
   }
@@ -74,6 +86,11 @@ const Quiz = () => {
         <div className="spinner-border text-primary" role="status">
           <span className="visually-hidden">Loading...</span>
         </div>
+        {error && (
+          <div className="alert alert-danger mt-3">
+            {error}
+          </div>
+        )}
       </div>
     );
   }
@@ -85,7 +102,7 @@ const Quiz = () => {
       <h2>{currentQuestion.question}</h2>
       <div className="mt-3">
       {currentQuestion.answers.map((answer, index) => (
-        <div key={index} className="d-flex align-items-center mb-2">
+        <div key={answer._id} className="d-flex align-items-center mb-2">
           <button className="btn btn-primary" onClick={() => handleAnswerClick(answer.isCorrect)}>{index + 1}</button>
           <div className="alert alert-secondary mb-0 ms-2 flex-grow-1">{answer.text}</div>
         </div>
