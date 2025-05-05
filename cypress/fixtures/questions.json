@@ -1,0 +1,46 @@
+{
+  "questions": [
+    {
+      "question": "What is React?",
+      "answers": [
+        {
+          "text": "A JavaScript library for building user interfaces",
+          "isCorrect": true
+        },
+        {
+          "text": "A programming language",
+          "isCorrect": false
+        },
+        {
+          "text": "A database management system",
+          "isCorrect": false
+        },
+        {
+          "text": "An operating system",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "question": "What is JSX?",
+      "answers": [
+        {
+          "text": "A syntax extension for JavaScript",
+          "isCorrect": true
+        },
+        {
+          "text": "A database query language",
+          "isCorrect": false
+        },
+        {
+          "text": "A styling framework",
+          "isCorrect": false
+        },
+        {
+          "text": "A testing framework",
+          "isCorrect": false
+        }
+      ]
+    }
+  ]
+} 
