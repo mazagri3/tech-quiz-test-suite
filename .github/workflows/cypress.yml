@@ -30,7 +30,8 @@ jobs:
       - name: Create env file
         run: |
           echo "MONGODB_URI=mongodb://127.0.0.1:27017/tech-quiz" > server/.env
-          echo "PORT=3001" >> server/.env
+          echo "PORT=3003" >> server/.env
+          echo "NODE_ENV=development" >> server/.env
 
       - name: Build client
         run: |
@@ -41,11 +42,12 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           start: npm run start:dev
-          wait-on: 'http://localhost:3007'
+          wait-on: 'http://localhost:3003'
           record: true
           parallel: true
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MONGODB_URI: mongodb://127.0.0.1:27017/tech-quiz
-          PORT: 3001 
+          PORT: 3003
+          NODE_ENV: development 
