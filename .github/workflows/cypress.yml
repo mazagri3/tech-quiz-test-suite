@@ -33,7 +33,9 @@ jobs:
           echo "PORT=3001" >> server/.env
 
       - name: Build client
-        run: cd client && npm run build
+        run: |
+          cd client
+          npm run build || (echo "Build failed, checking TypeScript configuration" && cat tsconfig.json && cat tsconfig.node.json && exit 1)
 
       - name: Cypress run
         uses: cypress-io/github-action@v6
