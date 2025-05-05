@@ -38,11 +38,26 @@ jobs:
           cd client
           npm run build || (echo "Build failed, checking TypeScript configuration" && cat tsconfig.json && cat tsconfig.node.json && exit 1)
 
+      - name: Start server
+        run: |
+          cd server
+          npm run dev &
+          echo "Waiting for server to start..."
+          npx wait-on tcp:3003 -t 30000
+          echo "Server started successfully"
+
+      - name: Start client
+        run: |
+          cd client
+          npm run dev &
+          echo "Waiting for client to start..."
+          npx wait-on tcp:3001 -t 30000
+          echo "Client started successfully"
+
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-          start: npm run start:dev
-          wait-on: 'http://localhost:3003'
+          wait-on: 'http://localhost:3001'
           record: true
           parallel: true
         env:
