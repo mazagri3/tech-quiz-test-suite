@@ -15,7 +15,9 @@
     "seed": "cd server && npm run seed",
     "render-build": "npm install && npm run build",
     "test": "cypress run",
-    "test:open": "cypress open"
+    "test:open": "cypress open",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   },
   "keywords": [],
   "author": "",
@@ -23,6 +25,7 @@
   "devDependencies": {
     "@testing-library/cypress": "^10.0.3",
     "@types/cypress": "^0.1.6",
+    "@types/mocha": "^10.0.10",
     "@types/react": "^18.3.3",
     "@vitejs/plugin-react": "^4.3.1",
     "concurrently": "^8.2.2",
